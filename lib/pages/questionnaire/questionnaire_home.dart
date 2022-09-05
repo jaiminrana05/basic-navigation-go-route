@@ -1,3 +1,4 @@
+import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +19,7 @@ class _QuestionnaireHomeState extends State<QuestionnaireHome> {
           children: [
             ElevatedButton(
               onPressed: () {
+                UserSimplePreferences().setTestStatus(status: true);
                 context.goNamed('start',
                     params: {'tab': 'questionnaire'},
                     queryParams: {'id': 'test123'});

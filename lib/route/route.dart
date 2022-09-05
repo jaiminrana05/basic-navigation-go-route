@@ -27,6 +27,10 @@ class MyRoutes {
     initialLocation: '/login',
     routes: [
       GoRoute(
+        path: '/',
+        redirect: (_) => 'HomeScreen/Profile',
+      ),
+      GoRoute(
         path: '/login',
         name: 'LogIn',
         pageBuilder: (context, state) => const MaterialPage(
@@ -56,6 +60,15 @@ class MyRoutes {
               final id = state.queryParams['id'];
               return QuestionIntroScreen(id: id);
             },
+            redirect: (state) {
+              if(state.queryParams['id'] != 'test123'){
+                return '/HomeScreen/profile';
+              }
+              if (!UserSimplePreferences().getTestStatus()) {
+                return '/HomeScreen/profile';
+              }
+              return null;
+            },
             routes: [
               GoRoute(
                 path: 'user-info',
@@ -64,6 +77,15 @@ class MyRoutes {
                   final id = state.queryParams['id'];
                   return UserInfoPage(id: id);
                 },
+                redirect: (state) {
+                  if(state.queryParams['id'] != 'test123'){
+                    return '/HomeScreen/profile';
+                  }
+                  if (!UserSimplePreferences().getTestStatus()) {
+                    return '/HomeScreen/profile';
+                  }
+                  return null;
+                },
               ),
               GoRoute(
                 path: 'test',
@@ -71,6 +93,15 @@ class MyRoutes {
                 pageBuilder: (context, state) => const MaterialPage(
                   child: TestPage(),
                 ),
+                redirect: (state) {
+                  if(state.queryParams['id'] != 'test123'){
+                    return '/HomeScreen/profile';
+                  }
+                  if (!UserSimplePreferences().getTestStatus()) {
+                    return '/HomeScreen/profile';
+                  }
+                  return null;
+                },
               ),
             ],
           ),
@@ -115,13 +146,6 @@ class MyRoutes {
                 // },
               ),
             ],
-          ),
-          GoRoute(
-            path: 'profile',
-            name: 'ProfilePage',
-            pageBuilder: (context, state) => const MaterialPage(
-              child: ProfilePage(),
-            ),
           ),
         ],
       ),

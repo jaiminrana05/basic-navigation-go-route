@@ -17,6 +17,7 @@ class UserSimplePreferences {
   }
 
   static String storeUserKey = 'myKey';
+
   Future setUser({required bool userLogInStatus}) async {
     //SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.setBool(storeUserKey, userLogInStatus);
@@ -27,5 +28,13 @@ class UserSimplePreferences {
     bool? res = preferences.getBool(storeUserKey);
 
     return res ?? false;
+  }
+
+  Future setTestStatus({required bool status}) async {
+    return await preferences.setBool('testStatus', status);
+  }
+
+  bool getTestStatus() {
+    return preferences.getBool('testStatus') ?? false;
   }
 }

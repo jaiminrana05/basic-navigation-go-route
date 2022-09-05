@@ -1,4 +1,5 @@
 import 'package:basic_navigation_go_route/main.dart';
+import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -85,7 +86,11 @@ class _TestPageState extends State<TestPage> {
                       visible: _currentPage == pages.length - 1,
                       child: ElevatedButton(
                         onPressed: () {
-                            context.goNamed('redirect');
+                          UserSimplePreferences().setTestStatus(status: false);
+                          context.goNamed(
+                            'HomeScreen',
+                            params: {'tab': 'profile'},
+                          );
                         },
                         child: const Text('Finish'),
                       ),
