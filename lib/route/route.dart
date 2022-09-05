@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import '../pages/error_page.dart';
 import '../pages/home_page.dart';
+import '../pages/profile/single_profile_page.dart';
 import '../pages/questionnaire/test_page.dart';
 import '../pages/quiz/quiz_result_page.dart';
 
@@ -61,7 +62,7 @@ class MyRoutes {
               return QuestionIntroScreen(id: id);
             },
             redirect: (state) {
-              if(state.queryParams['id'] != 'test123'){
+              if (state.queryParams['id'] != 'test123') {
                 return '/HomeScreen/profile';
               }
               if (!UserSimplePreferences().getTestStatus()) {
@@ -78,7 +79,7 @@ class MyRoutes {
                   return UserInfoPage(id: id);
                 },
                 redirect: (state) {
-                  if(state.queryParams['id'] != 'test123'){
+                  if (state.queryParams['id'] != 'test123') {
                     return '/HomeScreen/profile';
                   }
                   if (!UserSimplePreferences().getTestStatus()) {
@@ -94,7 +95,7 @@ class MyRoutes {
                   child: TestPage(),
                 ),
                 redirect: (state) {
-                  if(state.queryParams['id'] != 'test123'){
+                  if (state.queryParams['id'] != 'test123') {
                     return '/HomeScreen/profile';
                   }
                   if (!UserSimplePreferences().getTestStatus()) {
@@ -111,6 +112,18 @@ class MyRoutes {
             pageBuilder: (context, state) => const MaterialPage(
               child: ProfilePage(),
             ),
+          ),
+          GoRoute(
+            path: 'singleProfile',
+            name: 'SingleProfile',
+            pageBuilder: (context, state) {
+              final id = int.parse(state.queryParams['id'] ?? '0');
+              return MaterialPage(
+                child: SingleProfilePage(
+                  profileId: id,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: 'quizList',
@@ -136,6 +149,8 @@ class MyRoutes {
                     throw 'Result of Quiz : $currentQuizResult Not Found!';
                   }
                 },
+
+                ///just other way to handle error page when data not found
                 // redirect: (state) {
                 //   final currentQuizResult =
                 //       int.parse(state.queryParams['currentQuiz'] ?? '100');

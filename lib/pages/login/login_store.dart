@@ -14,7 +14,7 @@ abstract class LogInBase with Store {
   void signIn(BuildContext context) {
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       UserSimplePreferences().setUser(userLogInStatus: true);
-      context.goNamed('HomeScreen',params: {'tab': 'profile'});
+      context.goNamed('HomeScreen', params: {'tab': 'profile'});
       dispose();
     }
   }
