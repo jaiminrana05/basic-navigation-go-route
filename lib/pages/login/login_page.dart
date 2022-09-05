@@ -19,13 +19,18 @@ class LogInPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                decoration: const InputDecoration(hintText: 'Email'),
+                decoration: const InputDecoration(
+                  hintText: 'Email',
+                ),
                 controller: store.email,
               ),
               TextField(
-                decoration: const InputDecoration(hintText: 'Password'),
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                ),
                 controller: store.password,
                 obscureText: true,
+                onSubmitted: (_) => store.signIn(context),
               ),
               const SizedBox(height: 10.0),
               ElevatedButton(

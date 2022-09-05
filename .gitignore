@@ -75,3 +75,6 @@ ios/fastlane/screenshots
 android/fastlane/metadata
 **/pubspec.lock
 **/*.mobileprovision
+
+**.xcconfig
+**.lock

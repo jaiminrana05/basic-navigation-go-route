@@ -9,10 +9,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
-NavigatorState get navigator => navigatorKey.currentState!;
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -20,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final route = MyRoutes().routes;
     return Provider(
-      create: (BuildContext context) => LogInStore(),
+      create: (_) => LogInStore(),
       child: MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(

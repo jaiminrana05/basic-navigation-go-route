@@ -11,12 +11,16 @@ abstract class LogInBase with Store {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool isLogIn = false;
-
   void signIn(BuildContext context) {
-    if (email.text != '' && password.text != '') {
+    if (email.text.isNotEmpty && password.text.isNotEmpty) {
       UserSimplePreferences().setUser(userLogInStatus: true);
       context.goNamed('HomeScreen');
+      dispose();
     }
+  }
+
+  void dispose() {
+    email.clear();
+    password.clear();
   }
 }
