@@ -76,5 +76,4 @@ android/fastlane/metadata
 **/pubspec.lock
 **/*.mobileprovision
 
-**.xcconfig
 **.lock
