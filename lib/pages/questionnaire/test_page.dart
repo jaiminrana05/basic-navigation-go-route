@@ -87,10 +87,12 @@ class _TestPageState extends State<TestPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           UserSimplePreferences().setTestStatus(status: false);
-                          context.goNamed(
-                            'HomeScreen',
-                            params: {'tab': 'profile'},
-                          );
+                          Router.neglect(context, () {
+                            context.goNamed(
+                              'HomeScreen',
+                              params: {'tab': 'profile'},
+                            );
+                          });
                         },
                         child: const Text('Finish'),
                       ),

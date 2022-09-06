@@ -32,11 +32,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    context.goNamed(
-                      'Test',
-                      params: {'tab': 'questionnaire'},
-                      queryParams: {'id': widget.id},
-                    );
+                    Router.neglect(context, () {
+                      context.goNamed(
+                        'Test',
+                        params: {'tab': 'questionnaire'},
+                        queryParams: {'id': widget.id},
+                      );
+                    });
                   },
                   child: const Text('Start Test'),
                 )
