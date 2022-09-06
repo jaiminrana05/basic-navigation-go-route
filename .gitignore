@@ -8,19 +8,19 @@
 .buildlog/
 .history
 .svn/
-migrate_working_dir/
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
-.idea/
+.idea/*
+**/.idea/*
+!.idea/fileTemplates/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -31,17 +31,49 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+*.g.dart
+.firebase
 
 # Web related
 lib/generated_plugin_registrant.dart
 
-# Symbolication related
-app.*.symbols
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
-# Obfuscation related
-app.*.map.json
+# Additional
+get_flamingo_flutter.iml
+**/**/android/build/
+**/**/android/get_flamingo_flutter_android.iml
+**/**/android/local.properties
+**/**/ios/Pods
+**/**/ios/*.app.dSYM.zip
+**/**/ios/*.ipa
+**/**/ios/Podfile.lock
+**/**/ios/Flutter/flutter_export_environment.sh
+**/**/ios/Flutter/Generated.xcconfig
+**/**/ios/Runner.xcworkspace/xcuserdata
+**/**/ios/Runner.xcodeproj/xcuserdata
+.gradle
+Gemfile.lock
+android/*.jks
+android/jks/*.jks
+android/keystore.properties
+drafts/
+logs/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+**/*.g.dart
+**/*.chopper.dart
+**/*.patch
+ios/Flutter/.last_build_id
+**/*.apk
+**/*.aab
+**/*.ipa
+**/*.dSYM.zip
+**/*.cer
+fastlane/report.xml
+ios/fastlane/screenshots
+android/fastlane/metadata
+**/pubspec.lock
+**/*.mobileprovision
+
+**.lock

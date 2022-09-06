@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key, this.error}) : super(key: key);
@@ -12,8 +13,18 @@ class ErrorPage extends StatelessWidget {
         title: const Text('Error Page'),
       ),
       body: Center(
-        child: Text(
-          error.toString(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              error.toString(),
+              style: const TextStyle(fontSize: 45),
+            ),
+            ElevatedButton(
+              onPressed: () => context.goNamed('HomeScreen'),
+              child: const Text('Go to Home'),
+            ),
+          ],
         ),
       ),
     );
