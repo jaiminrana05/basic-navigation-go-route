@@ -21,7 +21,8 @@ class ErrorPage extends StatelessWidget {
               style: const TextStyle(fontSize: 45),
             ),
             ElevatedButton(
-              onPressed: () => context.goNamed('HomeScreen'),
+              onPressed: () =>
+                  context.goNamed('HomeScreen', params: {'tab': 'profile'}),
               child: const Text('Go to Home'),
             ),
           ],

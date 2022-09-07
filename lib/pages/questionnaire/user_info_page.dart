@@ -31,7 +31,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Router.neglect(context, () {
                       context.goNamed(
                         'Test',

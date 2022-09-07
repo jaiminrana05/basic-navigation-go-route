@@ -10,6 +10,7 @@ class LogInPage extends StatelessWidget {
     final store = Provider.of<LogInStore>(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('LogIn'),
       ),
       body: Center(

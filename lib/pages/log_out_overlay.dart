@@ -1,4 +1,9 @@
+import 'package:basic_navigation_go_route/htmlSrc/load_html.dart'
+    if (dart.library.html) "package:basic_navigation_go_route/htmlSrc/html_support.dart"
+    if (dart.library.io) "package:basic_navigation_go_route/htmlSrc/io_support.dart"
+    as supp;
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,7 +36,11 @@ class LogOutOverlay extends StatelessWidget {
               ),
               onPressed: () {
                 UserSimplePreferences().setUser(userLogInStatus: false);
-                context.goNamed('LogIn');
+                if(kIsWeb){
+                 supp.setHistoryLocation(0);
+                }else {
+                  context.goNamed('LogIn');
+                }
               },
               child: const Icon(
                 Icons.logout,
