@@ -1,3 +1,4 @@
+import 'package:basic_navigation_go_route/pages/log_out_overlay.dart';
 import 'package:basic_navigation_go_route/pages/login/login_page.dart';
 import 'package:basic_navigation_go_route/pages/profile/profile_page.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/question_into.dart';
@@ -182,5 +183,9 @@ class MyRoutes {
       key: state.pageKey,
       child: ErrorPage(error: state.error),
     ),
+    navigatorBuilder: (context, state, child) {
+      final userLogInStatus = UserSimplePreferences().getUser();
+      return userLogInStatus ? LogOutOverlay(child: child) : child;
+    },
   );
 }

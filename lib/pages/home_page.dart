@@ -1,10 +1,7 @@
 import 'package:basic_navigation_go_route/pages/profile/profile_page.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/questionnaire_home.dart';
-import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../utils/local_storage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -50,18 +47,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              UserSimplePreferences().setUser(userLogInStatus: false);
-              context.goNamed('LogIn');
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: LayoutBuilder(
