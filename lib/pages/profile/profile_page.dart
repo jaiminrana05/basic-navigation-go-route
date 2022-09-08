@@ -22,6 +22,14 @@ class ProfilePage extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           ElevatedButton(
+            onPressed: () => context.goNamed(
+              'QuizList',
+              params: {'tab': 'profile'},
+            ),
+            child: const Text('Fetch Quiz'),
+          ),
+          const SizedBox(height: 10),
+          ElevatedButton(
             onPressed: () {
               var randomInt = Random().nextInt(10000);
               store.onCreate(randomInt.toString());

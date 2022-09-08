@@ -3,11 +3,11 @@ import 'package:basic_navigation_go_route/pages/profile/profile_page.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/question_into.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/questionnaire_home.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/user_info_page.dart';
-import 'package:basic_navigation_go_route/pages/quiz/quiz_list_page.dart';
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../async_data/quiz_list.dart';
 import '../pages/error_page.dart';
 import '../pages/home_page.dart';
 import '../pages/profile/single_profile_page.dart';
@@ -128,8 +128,8 @@ class MyRoutes {
           GoRoute(
             path: 'quizList',
             name: 'QuizList',
-            pageBuilder: (context, state) => const MaterialPage(
-              child: QuizListPage(),
+            pageBuilder: (context, state) => MaterialPage(
+              child: QuizList(),
             ),
             routes: [
               //http://localhost:53894/home/quizResult?currentQuiz=9
