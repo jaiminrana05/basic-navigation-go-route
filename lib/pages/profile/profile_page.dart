@@ -58,5 +58,6 @@ class ProfilePage extends StatelessWidget {
 
 class NewProfile {
   NewProfile(this.id);
+
   final String id;
 }

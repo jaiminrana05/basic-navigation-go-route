@@ -1,4 +1,4 @@
-import 'package:basic_navigation_go_route/route/route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,14 +25,19 @@ class _QuestionIntroScreenState extends State<QuestionIntroScreen> {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  Router.neglect(
-                    context,
-                    () {
-                      context.goNamed('User-Info',
-                          params: {'tab': 'questionnaire'},
-                          queryParams: {'id': widget.id});
-                    },
-                  );
+                  context.replaceNamed('User-Info',
+                      params: {'tab': 'questionnaire'},
+                      queryParams: {'id': widget.id});
+                  if (kIsWeb) {
+                    Router.neglect(
+                      context,
+                      () {
+                        context.goNamed('User-Info',
+                            params: {'tab': 'questionnaire'},
+                            queryParams: {'id': widget.id});
+                      },
+                    );
+                  }
                 },
                 child: const Text('Start Test'),
               )

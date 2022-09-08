@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,15 +33,22 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Router.neglect(context, () {
-                      context.goNamed(
-                        'Test',
-                        params: {'tab': 'questionnaire'},
-                        queryParams: {'id': widget.id},
-                      );
-                    });
+                    context.replaceNamed(
+                      'Test',
+                      params: {'tab': 'questionnaire'},
+                      queryParams: {'id': widget.id},
+                    );
+                    if (kIsWeb) {
+                      Router.neglect(context, () {
+                        context.goNamed(
+                          'Test',
+                          params: {'tab': 'questionnaire'},
+                          queryParams: {'id': widget.id},
+                        );
+                      });
+                    }
                   },
-                  child: const Text('Start Test'),
+                  child: const Text('Start Test info'),
                 )
               ],
             ),

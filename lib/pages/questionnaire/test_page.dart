@@ -1,4 +1,5 @@
-import 'package:basic_navigation_go_route/main.dart';
+import 'dart:html';
+
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +48,7 @@ class _TestPageState extends State<TestPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myContext) {
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -86,13 +87,36 @@ class _TestPageState extends State<TestPage> {
                       visible: _currentPage == pages.length - 1,
                       child: ElevatedButton(
                         onPressed: () {
-                          UserSimplePreferences().setTestStatus(status: false);
-                          Router.neglect(context, () {
-                            context.goNamed(
-                              'HomeScreen',
-                              params: {'tab': 'profile'},
-                            );
-                          });
+                          showDialog(
+                            context: myContext,
+                            builder: (context) => AlertDialog(
+                              title: const Text(
+                                  'Are you sure you want to submit your quiz?'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    UserSimplePreferences()
+                                        .setTestStatus(status: false);
+                                    Router.neglect(context, () {
+                                      context.goNamed(
+                                        'HomeScreen',
+                                        params: {'tab': 'profile'},
+                                      );
+                                    });
+                                  },
+                                  child: const Text('Submit'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    context.pop();
+                                    window.history.go(0);
+                                  },
+                                  child: const Text('cancle'),
+                                )
+                              ],
+                            ),
+                          );
                         },
                         child: const Text('Finish'),
                       ),
