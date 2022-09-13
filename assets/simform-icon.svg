@@ -1,0 +1,20 @@
+<svg id="Group" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="236.128" height="268.411" viewBox="0 0 236.128 268.411">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.354" y1="0.612" x2="0.858" y2="0.256" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ef5366"/>
+      <stop offset="1" stop-color="#d71e23"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.142" y1="0.253" x2="0.588" y2="0.583" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d71e23"/>
+      <stop offset="1" stop-color="#ef5366"/>
+    </linearGradient>
+  </defs>
+  <g id="final-logo">
+    <g id="Group-13">
+      <path id="Rectangle-Copy-4" d="M0,74.1,122.21,0V66.673L0,144.457Z" transform="translate(122.21 144.457) rotate(180)" fill-rule="evenodd" fill="url(#linear-gradient)"/>
+      <path id="Rectangle-Copy-4-2" data-name="Rectangle-Copy-4" d="M0-33.623l122.21,74.1V-26.194L0-103.979Z" transform="translate(0 181.023)" fill="#ef5366" fill-rule="evenodd"/>
+      <path id="Rectangle-Copy-4-3" data-name="Rectangle-Copy-4" d="M0,70.356l122.21,74.1V77.785L0,0Z" transform="translate(236.128 191.367) rotate(180)" fill-rule="evenodd" fill="url(#linear-gradient-2)"/>
+      <path id="Rectangle-Copy-4-4" data-name="Rectangle-Copy-4" d="M53.477,132.289l122.21-74.1V124.86L53.477,202.645Z" transform="translate(60.442 65.766)" fill="#ef5366" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

@@ -4,6 +4,7 @@ import 'package:basic_navigation_go_route/pages/questionnaire/question_into.dart
 import 'package:basic_navigation_go_route/pages/questionnaire/questionnaire_home.dart';
 import 'package:basic_navigation_go_route/pages/questionnaire/user_info_page.dart';
 import 'package:basic_navigation_go_route/pages/quiz/quiz_list_page.dart';
+import 'package:basic_navigation_go_route/pages/user/user_question.dart';
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,8 +26,15 @@ class MyRoutes {
 
   final routes = GoRouter(
     urlPathStrategy: UrlPathStrategy.path,
-    initialLocation: '/login',
+    initialLocation: '/user-question', //'/login',
     routes: [
+      GoRoute(
+        path: '/user-question',
+        name: 'userQuestion',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: UserQuestion(),
+        ),
+      ),
       GoRoute(
         path: '/',
         redirect: (_) => 'HomeScreen/Profile',
@@ -165,19 +173,19 @@ class MyRoutes {
         ],
       ),
     ],
-    redirect: (state) {
-      final loginLoc = state.namedLocation('LogIn');
-      final loggingIn = state.subloc == loginLoc;
-      final rootLoc =
-          state.namedLocation('HomeScreen', params: {'tab': 'profile'});
-      if (!UserSimplePreferences().getUser() && !loggingIn) {
-        return loginLoc;
-      }
-      if (UserSimplePreferences().getUser() && loggingIn) {
-        return rootLoc;
-      }
-      return null;
-    },
+    // redirect: (state) {
+    //   final loginLoc = state.namedLocation('LogIn');
+    //   final loggingIn = state.subloc == loginLoc;
+    //   final rootLoc =
+    //       state.namedLocation('HomeScreen', params: {'tab': 'profile'});
+    //   if (!UserSimplePreferences().getUser() && !loggingIn) {
+    //     return loginLoc;
+    //   }
+    //   if (UserSimplePreferences().getUser() && loggingIn) {
+    //     return rootLoc;
+    //   }
+    //   return null;
+    // },
     errorPageBuilder: (context, state) => MaterialPage(
       key: state.pageKey,
       child: ErrorPage(error: state.error),
