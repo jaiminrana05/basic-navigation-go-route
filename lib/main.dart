@@ -4,6 +4,8 @@ import 'package:basic_navigation_go_route/route/route.dart';
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
 
 void main() async {
   await UserSimplePreferences().initLocalStorage();
@@ -26,6 +28,15 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        builder: (context, widget) => ResponsiveWrapper.builder(
+          ClampingScrollWrapper.builder(context, widget!),
+          breakpoints: const [
+            ResponsiveBreakpoint.resize(450, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1100, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+          ],
+        ),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

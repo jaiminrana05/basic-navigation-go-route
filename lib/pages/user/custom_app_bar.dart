@@ -1,8 +1,9 @@
-import 'package:basic_navigation_go_route/pages/user/user_question.dart';
+import 'package:basic_navigation_go_route/pages/user/view_all_question_dialog.dart';
 import 'package:basic_navigation_go_route/values/app_colors.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _CustomAppBarState extends State<CustomAppBar>
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 10,
+              vertical: 5,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -112,31 +113,45 @@ class _CustomAppBarState extends State<CustomAppBar>
                   ),
                 ),
                 const Spacer(),
-                ...[
-                  const SizedBox(width: 5),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      const ViewAllQuestion().show(context);
-                    },
-                    child: const Icon(Icons.menu),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.bookmark),
-                  ),
-                  const Center(
-                    child: Text('User Name'),
-                  ),
-                  const SizedBox(width: 5),
-                  CircleAvatar(
-                    backgroundColor: Colors.grey.shade100,
-                    child: const Icon(
-                      Icons.person,
+                const ResponsiveVisibility(
+                  visible: false,
+                  visibleWhen: [Condition.largerThan(name: TABLET)],
+                  child: ActionList(),
+                ),
+                ResponsiveVisibility(
+                  visible: false,
+                  visibleWhen: const [Condition.smallerThan(name: DESKTOP)],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: PopupMenuButton(
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuEntry>[
+                          const PopupMenuItem(
+                            child: Text('User Name'),
+                          ),
+                          PopupMenuItem(
+                            onTap: () {
+                              print('popupmenus');
+                              const ViewAllQuestion(
+                                selectedIndex: 0,
+                              ).show(context);
+                              setState(() {});
+                            },
+                            child: const Text('View all Question'),
+                          ),
+                          PopupMenuItem(
+                            onTap: () {
+                              const ViewAllQuestion(
+                                selectedIndex: 1,
+                              ).show(context);
+                            },
+                            child: const Text('Bookmark'),
+                          ),
+                        ];
+                      },
                     ),
                   ),
-                  const SizedBox(width: 5),
-                ],
+                ),
               ],
             ),
           ),
@@ -152,48 +167,58 @@ class _CustomAppBarState extends State<CustomAppBar>
   }
 }
 
-List<Widget> appBarAction(bool screenWidth, BuildContext ctx) {
-  List<Widget> actionList = [
-    const SizedBox(width: 5),
-    ElevatedButton(
-      onPressed: () {
-        const ViewAllQuestion().show(ctx);
-      },
-      child: const Text('View all Question'),
-    ),
-    IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.bookmark),
-    ),
-    const Center(
-      child: Text('User Name'),
-    ),
-    const SizedBox(width: 5),
-    const CircleAvatar(
-      child: Icon(Icons.person),
-    ),
-    const SizedBox(width: 5),
-  ];
+class ActionList extends StatelessWidget {
+  const ActionList({Key? key}) : super(key: key);
 
-  List<Widget> singleMenu = [
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: PopupMenuButton(
-        itemBuilder: (BuildContext context) {
-          return <PopupMenuEntry>[
-            const PopupMenuItem(
-              child: Text('User Name'),
-            ),
-            const PopupMenuItem(
-              child: Text('View all Question'),
-            ),
-            const PopupMenuItem(
-              child: Text('Bookmark'),
-            ),
-          ];
-        },
-      ),
-    ),
-  ];
-  return screenWidth ? actionList : singleMenu;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () {
+            const ViewAllQuestion(
+              selectedIndex: 0,
+            ).show(context);
+          },
+          icon: const Icon(FontAwesomeIcons.bars),
+        ),
+        const SizedBox(width: 5),
+        IconButton(
+          onPressed: () {
+            const ViewAllQuestion(
+              selectedIndex: 1,
+            ).show(context);
+          },
+          icon: const Icon(FontAwesomeIcons.bookmark),
+        ),
+        const Center(
+          child: Text('User Name'),
+        ),
+        const SizedBox(width: 5),
+        const CircleAvatar(
+          child: Icon(Icons.person),
+        ),
+        const SizedBox(width: 5),
+      ],
+    );
+  }
 }
+
+// TweenAnimationBuilder<Duration>(
+// duration: Duration(minutes: 3),
+// tween: Tween(begin: Duration(minutes: 3), end: Duration.zero),
+// onEnd: () {
+// print('Timer ended');
+// },
+// builder: (BuildContext context, Duration value, Widget? child) {
+// final minutes = value.inMinutes;
+// final seconds = value.inSeconds % 60;
+// return Padding(
+// padding: const EdgeInsets.symmetric(vertical: 5),
+// child: Text('$minutes:$seconds',
+// textAlign: TextAlign.center,
+// style: TextStyle(
+// color: Colors.black,
+// fontWeight: FontWeight.bold,
+// fontSize: 30)));
+// }),
