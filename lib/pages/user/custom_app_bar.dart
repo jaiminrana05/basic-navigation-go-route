@@ -126,24 +126,25 @@ class _CustomAppBarState extends State<CustomAppBar>
                     child: PopupMenuButton(
                       itemBuilder: (BuildContext context) {
                         return <PopupMenuEntry>[
-                          const PopupMenuItem(
-                            child: Text('User Name'),
-                          ),
                           PopupMenuItem(
                             onTap: () {
-                              print('popupmenus');
-                              const ViewAllQuestion(
-                                selectedIndex: 0,
-                              ).show(context);
-                              setState(() {});
+                              Future.delayed(
+                                Duration.zero,
+                                () => const ViewAllQuestion(
+                                  selectedIndex: 0,
+                                ).show(context),
+                              );
                             },
                             child: const Text('View all Question'),
                           ),
                           PopupMenuItem(
                             onTap: () {
-                              const ViewAllQuestion(
-                                selectedIndex: 1,
-                              ).show(context);
+                              Future.delayed(
+                                Duration.zero,
+                                () => const ViewAllQuestion(
+                                  selectedIndex: 1,
+                                ).show(context),
+                              );
                             },
                             child: const Text('Bookmark'),
                           ),
