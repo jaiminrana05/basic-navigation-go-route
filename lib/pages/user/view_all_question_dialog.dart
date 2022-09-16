@@ -1,5 +1,7 @@
+import 'package:basic_navigation_go_route/pages/user/question_store.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ViewAllQuestion extends StatefulWidget {
   const ViewAllQuestion({
@@ -22,7 +24,7 @@ class ViewAllQuestion extends StatefulWidget {
 
 class _ViewAllQuestionState extends State<ViewAllQuestion>
     with SingleTickerProviderStateMixin {
-  late List<Questions> question = generateItems(10);
+  late QuestionStore store = Provider.of<QuestionStore>(context);
 
   @override
   void initState() {
@@ -80,6 +82,7 @@ class _ViewAllQuestionState extends State<ViewAllQuestion>
   }
 
   Widget _buildPanel() {
+    final question = store.mcqQuestions;
     return ListView.builder(
       itemCount: question.length,
       itemBuilder: (BuildContext context, int index) {
@@ -90,12 +93,12 @@ class _ViewAllQuestionState extends State<ViewAllQuestion>
           leading: InkWell(
             onTap: () {
               setState(() {
-                question[index].isExpanded = !question[index].isExpanded;
+                question[index].isBookmarked = !question[index].isBookmarked;
               });
             },
             child: Icon(
               FontAwesomeIcons.solidBookmark,
-              color: question[index].isExpanded
+              color: question[index].isBookmarked
                   ? Colors.yellow
                   : Colors.grey.shade500,
             ),
@@ -114,58 +117,28 @@ class _ViewAllQuestionState extends State<ViewAllQuestion>
       },
     );
   }
-
-  List<Questions> generateItems(int numberOfItems) {
-    return List.generate(numberOfItems, (int index) {
-      return Questions(
-        headerValue: 'Question $index',
-        expandedValue: 'Details for Question $index goes here',
-      );
-    });
-  }
 }
 
 class Questions {
   Questions({
     required this.expandedValue,
     required this.headerValue,
-    this.isExpanded = false,
+    required this.rightAns,
+    required this.optionA,
+    required this.optionB,
+    required this.optionC,
+    required this.optionD,
+    this.selectedAns,
+    this.isBookmarked = false,
   });
 
   String expandedValue;
   String headerValue;
-  bool isExpanded;
+  String rightAns;
+  String optionA;
+  String optionB;
+  String optionC;
+  String optionD;
+  String? selectedAns;
+  bool isBookmarked;
 }
-
-// ExpansionPanelList(
-//   dividerColor: Colors.red,
-//   elevation: 0,
-//   expandedHeaderPadding: EdgeInsets.zero,
-//   expansionCallback: (int index, bool isExpanded) {
-//     setState(() {
-//       _books[index].isExpanded = !isExpanded;
-//     });
-//   },
-//   children: _books.map<ExpansionPanel>((Item item) {
-//     return ExpansionPanel(
-//       backgroundColor: Colors.green,
-//       canTapOnHeader: true,
-//       headerBuilder: (BuildContext context, bool isExpanded) {
-//         return Padding(
-//           padding: EdgeInsets.zero,
-//           child: ListTile(
-//             leading: const Icon(FontAwesomeIcons.bookmark),
-//             title: Text(item.headerValue),
-//           ),
-//         );
-//       },
-//       body: Padding(
-//         padding: EdgeInsets.zero,
-//         child: ListTile(
-//           title: Text(item.expandedValue),
-//         ),
-//       ),
-//       isExpanded: item.isExpanded,
-//     );
-//   }).toList(),
-// ),

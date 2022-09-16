@@ -1,5 +1,8 @@
 import 'package:basic_navigation_go_route/pages/user/custom_app_bar.dart';
+import 'package:basic_navigation_go_route/pages/user/question_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'custom_app_bar.dart';
@@ -16,18 +19,9 @@ class _UserQuestionState extends State<UserQuestion>
     with SingleTickerProviderStateMixin {
   var pageController = PageController();
 
-  int _currentPage = 0;
-
-  bool collapsible = false;
+  late QuestionStore store = Provider.of<QuestionStore>(context);
 
   late final AnimationController _controller;
-
-  var pages = List.generate(
-    10,
-    (index) => MainQuestionScreen(
-      currentQuestion: index + 1,
-    ),
-  );
 
   @override
   void initState() {
@@ -36,6 +30,7 @@ class _UserQuestionState extends State<UserQuestion>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
+    _controller.forward();
   }
 
   @override
@@ -59,113 +54,129 @@ class _UserQuestionState extends State<UserQuestion>
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: nowCenter
-                              ? 100
-                              : isCenter
-                                  ? 240
-                                  : 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 10),
-                            child: Text(
-                              'Simform Aptitude Test',
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
+                          horizontal: isXl
+                              ? 250
+                              : nowCenter
+                                  ? 100
+                                  : isCenter
+                                      ? 240
+                                      : 0),
+                      child: Observer(builder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8.0,
+                                horizontal: 10,
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            height: ResponsiveWrapper.of(context).equals(MOBILE)
-                                ? 620
-                                : 550,
-                            decoration: const BoxDecoration(
-                              color: Colors.white54,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            child: PageView(
-                              controller: pageController,
-                              children: [...pages],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Visibility(
-                                visible: _currentPage != 0,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_currentPage != 0) {
-                                      pageController.animateToPage(
-                                          --_currentPage,
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: const Text('Previous'),
+                              child: Text(
+                                'Simform Aptitude Test',
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Visibility(
-                                visible: _currentPage == pages.length - 1,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return AlertDialog(
-                                          title: const Text(
-                                              'Are you sure you want to submit the Test?'),
-                                          actions: [
-                                            ElevatedButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).pop(),
-                                              child: const Text('Cancle'),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).pop(),
-                                              child: const Text('Submit'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: const Text('Finish'),
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              height:
+                                  ResponsiveWrapper.of(context).equals(MOBILE)
+                                      ? 620
+                                      : 550,
+                              decoration: const BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
                                 ),
                               ),
-                              Visibility(
-                                visible: _currentPage != pages.length - 1,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_currentPage < pages.length - 1) {
-                                      pageController.animateToPage(
-                                          ++_currentPage,
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: const Text('Next'),
+                              child: Observer(builder: (context) {
+                                return PageView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  controller: pageController,
+                                  children: List.generate(
+                                    store.mcqQuestions.length,
+                                    (index) => MainQuestionScreen(
+                                        currentQuestion: index),
+                                  ),
+                                );
+                              }),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Visibility(
+                                  visible: store.currentPage != 0,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (store.currentPage != 0) {
+                                        pageController.animateToPage(
+                                            --store.currentPage,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.easeInOut);
+                                      }
+                                    },
+                                    child: const Text('Previous'),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                                Visibility(
+                                  visible: store.currentPage ==
+                                      store.mcqQuestions.length - 1,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Are you sure you want to submit the Test?'),
+                                            actions: [
+                                              ElevatedButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: const Text('Cancle'),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: const Text('Submit'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: const Text('Finish'),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: store.currentPage !=
+                                      store.mcqQuestions.length - 1,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (store.currentPage <
+                                          store.mcqQuestions.length - 1) {
+                                        pageController.animateToPage(
+                                            ++store.currentPage,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.easeInOut);
+                                      }
+                                    },
+                                    child: const Text('Next'),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      }),
                     ),
                   ),
                   ResponsiveVisibility(
+                    visible: true,
                     hiddenWhen: const [Condition.smallerThan(name: DESKTOP)],
                     child: SizeTransition(
                       axis: Axis.horizontal,
@@ -204,19 +215,17 @@ class _UserQuestionState extends State<UserQuestion>
                                   //maxCrossAxisExtent: 70,
                                   childAspectRatio: 4 / 3,
                                 ),
-                                itemCount: 10,
+                                itemCount: store.mcqQuestions.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      setState(() {
-                                        _currentPage = index;
-                                        pageController.animateToPage(
-                                            _currentPage,
-                                            duration: const Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            curve: Curves.easeInOut);
-                                      });
+                                      store.currentPage = index;
+                                      pageController.animateToPage(
+                                          store.currentPage,
+                                          duration: const Duration(
+                                            milliseconds: 300,
+                                          ),
+                                          curve: Curves.easeInOut);
                                     },
                                     child: Container(
                                       decoration: const BoxDecoration(
@@ -248,12 +257,13 @@ class _UserQuestionState extends State<UserQuestion>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: const [
-                                  Text('Total Question : 10'),
-                                  Text('Question Unvisited: 3'),
-                                  Text('Question Visited: 3'),
-                                  Text('Question Answered: 3'),
-                                  Text('Question Bookmarks: 1'),
+                                children: [
+                                  Text(
+                                      'Total Question : ${store.mcqQuestions.length}'),
+                                  const Text('Question Unvisited: 3'),
+                                  const Text('Question Visited: 3'),
+                                  const Text('Question Answered: 3'),
+                                  const Text('Question Bookmarks: 1'),
                                 ],
                               ),
                             ),
@@ -266,12 +276,10 @@ class _UserQuestionState extends State<UserQuestion>
                     hiddenWhen: const [Condition.smallerThan(name: DESKTOP)],
                     child: GestureDetector(
                       onTap: () {
-                        setState(() {
-                          !collapsible
-                              ? _controller.forward()
-                              : _controller.reverse();
-                          collapsible = !collapsible;
-                        });
+                        store.isCollapsible = !store.isCollapsible;
+                        store.isCollapsible
+                            ? _controller.reverse()
+                            : _controller.forward();
                       },
                       child: Container(
                         decoration: const BoxDecoration(
@@ -279,11 +287,13 @@ class _UserQuestionState extends State<UserQuestion>
                           color: Colors.red,
                         ),
                         child: Center(
-                          child: Icon(
-                            collapsible
-                                ? Icons.chevron_left
-                                : Icons.chevron_right,
-                          ),
+                          child: Observer(builder: (context) {
+                            return Icon(
+                              store.isCollapsible
+                                  ? Icons.chevron_left
+                                  : Icons.chevron_right,
+                            );
+                          }),
                         ),
                       ),
                     ),
@@ -299,8 +309,12 @@ class _UserQuestionState extends State<UserQuestion>
 
   bool get isCenter =>
       ResponsiveWrapper.of(context).isLargerThan(TABLET) &&
-      collapsible == false;
+      store.isCollapsible == true;
 
   bool get nowCenter =>
       isCenter && ResponsiveWrapper.of(context).isSmallerThan('BIGDESKTOP');
+
+  bool get isXl =>
+      ResponsiveWrapper.of(context).isLargerThan('XL') &&
+      store.isCollapsible == true;
 }

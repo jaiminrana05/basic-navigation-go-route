@@ -1,5 +1,6 @@
 import 'package:basic_navigation_go_route/pages/login/login_store.dart';
 import 'package:basic_navigation_go_route/pages/profile/profile_store.dart';
+import 'package:basic_navigation_go_route/pages/user/question_store.dart';
 import 'package:basic_navigation_go_route/route/route.dart';
 import 'package:basic_navigation_go_route/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         Provider<ProfileStore>(
           create: (context) => ProfileStore(),
         ),
+        Provider<QuestionStore>(
+          create: (context) => QuestionStore(),
+        ),
       ],
       child: MaterialApp.router(
         builder: (context, widget) => ResponsiveWrapper.builder(
@@ -39,9 +43,9 @@ class MyApp extends StatelessWidget {
           ],
         ),
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Flutter Quiz Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
         ),
         routerDelegate: route.routerDelegate,
         routeInformationParser: route.routeInformationParser,
